@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PodcastFeed.Api.Services;
 
 namespace PodcastFeed.Api
 {
@@ -26,6 +27,9 @@ namespace PodcastFeed.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IFeedService, FeedService>(client => {
+                client.BaseAddress = new Uri("https://www.dr.dk/mu/feed");
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
