@@ -15,7 +15,7 @@ namespace PodcastFeed.Application.Services
         public string Link { get; set; } = string.Empty;
 
         [XmlElement("category")]
-        public string Category { get; set; } = string.Empty;
+        public string[] Category { get; set; } = Array.Empty<string>();
 
         [XmlElement("item")]
         public Item[] Items { get; set; } = Array.Empty<Item>();

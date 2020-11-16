@@ -6,6 +6,6 @@ namespace PodcastFeed.Application.Services
     public class Rss
     {
         [XmlElement("channel")]
-        public Channel Channel { get; set; }
+        public Channel Channel { get; set; } = new Channel {};
     }
 }

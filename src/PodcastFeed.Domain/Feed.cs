@@ -11,8 +11,8 @@ namespace PodcastFeed.Domain
 
         public Uri Link { get; init; }
 
-        public string Category { get; init; }
+        public IEnumerable<string> Category { get; init; } = Array.Empty<string>();
 
-        public IEnumerable<Item> Items { get; init; }
+        public IEnumerable<Item> Items { get; init; } = Array.Empty<Item>();
     }
 }

@@ -4,6 +4,6 @@ namespace PodcastFeed.Application.Services
 {
     public interface IRssService
     {
-        public Task<Channel?> GetChannel(string name, int limit);
+        public Task<Channel> GetChannel(string name);
     }
 }
