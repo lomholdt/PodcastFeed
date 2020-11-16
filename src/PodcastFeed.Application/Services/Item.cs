@@ -1,6 +1,7 @@
+using System;
 using System.Xml.Serialization;
 
-namespace PodcastFeed.Api.Services
+namespace PodcastFeed.Application.Services
 {
     public class Item
     {
@@ -15,5 +16,10 @@ namespace PodcastFeed.Api.Services
 
         [XmlElement("pubDate")]
         public string PubDate { get; set; }
+
+        public DateTime? PublishedDate
+        {
+            get { return DateTime.Parse(PubDate); }
+        }
     }
 }

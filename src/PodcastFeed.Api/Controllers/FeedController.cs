@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PodcastFeed.Api.Services;
-using System.Linq;
+using PodcastFeed.Application.Services;
 
 namespace PodcastFeed.Api.Controllers
 {
@@ -18,17 +17,12 @@ namespace PodcastFeed.Api.Controllers
         public FeedController(ILogger<FeedController> logger, IFeedService feedService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _feedService = feedService;
+            _feedService = feedService ?? throw new ArgumentNullException(nameof(feedService));
         }
 
         [HttpGet("{name}")]
-        public async Task<OkObjectResult> Get([FromRoute] string name, [FromQuery] int limit = 10, [FromQuery] DateTime? publishedDate = default)
-        {
-            var channel = await _feedService.GetChannel(name, limit);
+        public async Task<OkObjectResult> Get([FromRoute] string name, [FromQuery] int limit = 10, [FromQuery] DateTime? publishedDate = default) =>
+            Ok(await _feedService.GetFeed(name, limit, publishedDate));
 
-            var feed = channel.ToDomain();
-
-            return Ok(feed);
-        }
     }
 }

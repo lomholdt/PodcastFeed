@@ -1,20 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PodcastFeed.Api.Services;
-using PodcastFeed.Application.Commands;
-using PodcastFeed.Application.Handlers;
-using PodcastFeed.Domain;
+using PodcastFeed.Application.Services;
 
 namespace PodcastFeed.Api
 {
@@ -30,11 +22,11 @@ namespace PodcastFeed.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<IFeedService, FeedService>(client => {
+            services.AddHttpClient<IRssService, RssService>(client => {
                 client.BaseAddress = new Uri("https://www.dr.dk");
             });
 
-            services.AddScoped<ICommandHandler<GetFeedCommand>, GetFeedCommandHandler>();
+            services.AddScoped<IFeedService, FeedService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -3,19 +3,20 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using PodcastFeed.Api.Exceptions;
+using PodcastFeed.Application.Services;
 
 namespace PodcastFeed.Api.Services
 {
-    public class FeedService : IFeedService
+    public class RssService : IRssService
     {
         private readonly HttpClient _client;
 
-        public FeedService(HttpClient client)
+        public RssService(HttpClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<Channel> GetChannel(string name, int limit)
+        public async Task<Channel?> GetChannel(string name, int limit)
         {
             var uri = $"/mu/feed/{name}?limit={limit}";
 
@@ -26,8 +27,7 @@ namespace PodcastFeed.Api.Services
             try
             {
                 var rssData = serializer.Deserialize(responseStream) as Rss;
-
-                return rssData.Channel;
+                return rssData?.Channel;
             }
             catch
             {

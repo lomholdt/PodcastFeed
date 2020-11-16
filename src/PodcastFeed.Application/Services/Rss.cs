@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace PodcastFeed.Api.Services
+namespace PodcastFeed.Application.Services
 {
     [XmlRoot("rss")]
     public class Rss
