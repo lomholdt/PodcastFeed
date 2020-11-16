@@ -16,9 +16,9 @@ namespace PodcastFeed.Api.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<Channel?> GetChannel(string name, int limit)
+        public async Task<Channel> GetChannel(string name)
         {
-            var uri = $"/mu/feed/{name}?limit={limit}";
+            var uri = $"/mu/feed/{name}";
 
             var responseStream = await _client.GetStreamAsync(uri);
 
@@ -26,8 +26,8 @@ namespace PodcastFeed.Api.Services
 
             try
             {
-                var rssData = serializer.Deserialize(responseStream) as Rss;
-                return rssData?.Channel;
+                var rss = serializer.Deserialize(responseStream) as Rss;
+                return rss?.Channel ?? new Channel { };
             }
             catch
             {

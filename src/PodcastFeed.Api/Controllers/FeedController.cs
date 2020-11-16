@@ -24,5 +24,11 @@ namespace PodcastFeed.Api.Controllers
         public async Task<OkObjectResult> Get([FromRoute] string name, [FromQuery] int limit = 10, [FromQuery] DateTime? publishedDate = default) =>
             Ok(await _feedService.GetFeed(name, limit, publishedDate));
 
+        [HttpGet("{name}/2")]
+        public async Task<IActionResult> Get2([FromRoute] string name, [FromQuery] int limit = 10, [FromQuery] DateTime? publishedDate = default)
+        {
+            await Task.CompletedTask;
+            return Ok();
+        }
     }
 }
