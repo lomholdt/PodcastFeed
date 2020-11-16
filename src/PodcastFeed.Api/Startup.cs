@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PodcastFeed.Api.Services;
+using PodcastFeed.Application.Commands;
+using PodcastFeed.Application.Handlers;
+using PodcastFeed.Domain;
 
 namespace PodcastFeed.Api
 {
@@ -28,8 +31,10 @@ namespace PodcastFeed.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<IFeedService, FeedService>(client => {
-                client.BaseAddress = new Uri("https://www.dr.dk/mu/feed");
+                client.BaseAddress = new Uri("https://www.dr.dk");
             });
+
+            services.AddScoped<ICommandHandler<GetFeedCommand>, GetFeedCommandHandler>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

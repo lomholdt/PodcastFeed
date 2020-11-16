@@ -1,9 +1,10 @@
+using System;
 using System.Threading.Tasks;
 
 namespace PodcastFeed.Api.Services
 {
     public interface IFeedService
     {
-        public Task<Feed> GetFeed(string name, int limit);
+        public Task<Channel> GetChannel(string name, int limit);
     }
 }

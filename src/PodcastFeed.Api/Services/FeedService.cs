@@ -1,7 +1,8 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Text.Json;
+using System.Xml.Serialization;
+using PodcastFeed.Api.Exceptions;
 
 namespace PodcastFeed.Api.Services
 {
@@ -14,17 +15,24 @@ namespace PodcastFeed.Api.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<Feed> GetFeed(string name, int limit)
+        public async Task<Channel> GetChannel(string name, int limit)
         {
-            var uri = $"{name}.xml?format=podcast&amp;limit={limit}";
+            var uri = $"/mu/feed/{name}?limit={limit}";
 
-            var responseString = await _client.GetStringAsync(uri);
+            var responseStream = await _client.GetStreamAsync(uri);
 
-            var feed = JsonSerializer.Deserialize<Feed>(responseString);
+            XmlSerializer serializer = new XmlSerializer(typeof(Rss));
 
-            return feed;
+            try
+            {
+                var rssData = serializer.Deserialize(responseStream) as Rss;
+
+                return rssData.Channel;
+            }
+            catch
+            {
+                throw new RssNotParsableException();
+            }
         }
     }
-
-    public record Feed(string Title);
 }
