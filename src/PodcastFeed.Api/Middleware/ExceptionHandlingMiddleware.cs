@@ -19,9 +19,18 @@ namespace PodcastFeed.Api.Middleware
             try
             {
                 await _next(httpContext);
-            } catch (RssNotParsableException e)
+            }
+            catch (Exception exception)
             {
-                await httpContext.SetErrorResponse(e, StatusCodes.Status404NotFound);
+                switch (exception)
+                {
+                    case RssNotParsableException e:
+                        await httpContext.SetErrorResponse(e, StatusCodes.Status404NotFound);
+                        break;
+                    default:
+                        await httpContext.SetErrorResponse(exception, StatusCodes.Status500InternalServerError);
+                        break;
+                }
             }
         }
     }
