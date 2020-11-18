@@ -80,7 +80,7 @@ namespace PodcastFeed.Api.UnitTest.Services
 
             private string _body = string.Empty;
 
-            private Action<HttpRequestMessage>? _whenCalled;
+            private Action<HttpRequestMessage> _whenCalled;
 
             private string _uri = string.Empty;
 
@@ -111,7 +111,7 @@ namespace PodcastFeed.Api.UnitTest.Services
 
                 private readonly string _uri;
 
-                private readonly Action<HttpRequestMessage>? _whenCalled;
+                private readonly Action<HttpRequestMessage> _whenCalled;
 
                 public MockHttpMessageHandler(string uri, HttpStatusCode statusCode, string content, Action<HttpRequestMessage> whenCalled)
                 {

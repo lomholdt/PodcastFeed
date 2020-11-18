@@ -20,7 +20,6 @@ namespace PodcastFeed.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<IRssService, RssService>(client => {
@@ -36,7 +35,6 @@ namespace PodcastFeed.Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -45,6 +43,8 @@ namespace PodcastFeed.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PodcastFeed.Api v1"));
             }
+
+            app.UseAmIUp();
 
             app.UseExceptionHandling();
 
